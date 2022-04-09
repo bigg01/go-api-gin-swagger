@@ -1,0 +1,84 @@
+basePath: /api/v1
+definitions:
+  model.Album:
+    properties:
+      artist:
+        type: string
+      id:
+        type: string
+      price:
+        type: number
+      title:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This provides properties access for cloud automation
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Trinity Metadata API
+  version: "1.0"
+paths:
+  /alb/albums:
+    get:
+      consumes:
+      - application/json
+      description: return a list of Albums
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Album'
+            type: array
+      summary: ping example
+      tags:
+      - album
+  /alb/albums/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - description: Album ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Album'
+      summary: Show an album
+      tags:
+      - albums
+  /example/helloworld:
+    get:
+      consumes:
+      - application/json
+      description: do ping
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: ping example
+      tags:
+      - example
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"

@@ -1,0 +1,23 @@
+POST http://localhost:8080/api/v1/alb/albums
+Content-Type: application/json
+
+{"id": "4","title": "The Masters of Cloud","artist": "Oliver Gugenbuehl","price": 1000.99}
+
+###
+GET http://localhost:8080/api/v1/alb/albums
+Accept: application/json
+
+###
+
+GET http://localhost:8080/api/v1/alb/albums/2
+Accept: application/json
+
+###
+
+GET http://localhost:8080/api/v1/alb/albums/4
+Accept: application/json
+
+###
+
+GET http://localhost:8080/api/v1/alb/albums
+Accept: application/json

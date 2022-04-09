@@ -20,7 +20,7 @@ https://github.com/go-swagger/go-swagger
 ```bash
 swagger generate cli -f ../docs/swagger.json --cli-app-name trinityclient
 go get -u -f ./...
-go build -o trinityclient cmd/trinityclient/main.go
+go build -o bin/trinityclient cmd/trinityclient/main.go
 ```
 
 ```bash
