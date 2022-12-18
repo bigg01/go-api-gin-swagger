@@ -49,6 +49,42 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "return a list of Albums",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "album"
+                ],
+                "summary": "ping example",
+                "parameters": [
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "collectionFormat": "multi",
+                        "description": "string collection",
+                        "name": "collection",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Album"
+                            }
+                        }
+                    }
+                }
             }
         },
         "/alb/albums/{id}": {
@@ -105,6 +141,56 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/generic/svc": {
+            "get": {
+                "description": "return a list of Albums",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "svc"
+                ],
+                "summary": "ping example",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.ServiceCode"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "return a list of Albums",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "svc"
+                ],
+                "summary": "ping example",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.ServiceCode"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -124,6 +210,23 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        },
+        "model.ServiceCode": {
+            "type": "object",
+            "properties": {
+                "business_unit": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
         }
     },
     "securityDefinitions": {
@@ -136,7 +239,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "localhost:3000",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "Trinity Metadata API",

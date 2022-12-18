@@ -2,6 +2,10 @@ get_deps:
 	go get -u github.com/swaggo/swag/cmd/swag
 	go install github.com/swaggo/swag/cmd/swag@latest
 
+update_go_deps:
+	go get -u
+	go mod tidy
+
 swag_init:
 	swag init
 	swag fmt
@@ -11,6 +15,9 @@ hello:
 
 build:
 	go build -o bin/trinity_server main.go
+build_native:
+	#GOOS=linux GOARCH=amd64 go build -o bin/trinity_server -a -installsuffix cgo main.go
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -v -o bin/trinity_server -a -installsuffix cgo main.go
 compile:
 	echo "Compiling for every OS and Platform"
 	# -a -installsuffix cgo
@@ -21,17 +28,19 @@ compile:
 
 upx:
 	echo "---> upx compress "
-	upx -qq bin/main
+	du -hs bin/trinity_server
+	upx -qq bin/trinity_server
 	echo "---> upx verify "
-	upx -t bin/main
+	upx -t bin/trinity_server
+	du -hs bin/trinity_server
 
 container:
-	docker build . --file Dockerfile --tag mycontainer:latest
+	docker build .  --file Dockerfile --tag trinity_server:latest
 
 containerrun:
-	docker run mycontainer:latest
+	docker run -p 8080:8080 trinity_server:latest
 
-buildcontainer: build container
+buildcontainer: build_native upx container
 
 
 coverage:
@@ -54,3 +63,16 @@ clean:
 	rm -rf bin/*
 
 all: hello build
+
+prom_start:
+	podman-compose -f compose/docker-compose-prom.yml up
+prom_stop:
+	podman-compose -f compose/docker-compose-prom.yml down
+prom_reload:
+	curl -X POST localhost:9090/-/reload
+
+cosmosdb_up:
+	podman-compose -f compose/docker-compose-cosmosdb.yml up
+
+cosmosdb_stop:
+	podman-compose -f compose/docker-compose-cosmosdb.yml down
